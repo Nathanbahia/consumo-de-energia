@@ -8,11 +8,20 @@
     <meta name="description" content="Cálcule o valor aproximado da sua próxima fatura de Energia Elétrica de uma maneira rápida e simples">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
 
     <style>
         body {
             background: #088A85;
             font-family: 'Oswald', sans-serif;
+            color: #000;
+        }
+
+        label {
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
         }
         
         h1, .fatura {
@@ -47,26 +56,20 @@
     
     <div class="form-group mt-5 text-center">
         <label>Última marcação</label>
-        <input type="number" class="form-control mx-auto">
+        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Última marcação que consta na conta de luz."></i>        
+        <input type="number" class="form-control mx-auto" id="iptMarcacaoInicial">
     </div>
     
     <div class="form-group text-center">
         <label>Marcação atual</label>
-        <input type="number" class="form-control mx-auto">
-    </div>
-    
-    <div class="form-group text-center">
-        <label>Dias desde a última medição:</label>
-        <input type="number" class="form-control mx-auto">
+        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="A marcação atual do relógio de luz."></i>        
+        <input type="number" class="form-control mx-auto" id="iptMarcacaoFinal">
     </div>
     
     <div class="form-group text-center w-100 mb-5">
         <button class="btn btn-warning" data-toggle="modal" data-target="#calculoEnergia">Calcular</button>
     </div>
     
-    <div>
-        <canvas id="myChart" class="mt-5"></canvas>
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="calculoEnergia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,18 +83,16 @@
                 </div>
                 <div class="modal-body">
                     
-                    <p>Dias desde a última marcação: <span class="d-flex justify-content-end">20</span></p>
-                    <p>KWh utilizados: <span class="d-flex justify-content-end">150</span></p>
-                    <p>Valor do KWh: <span class="d-flex justify-content-end">R$ 0,54</span></p>
-                    <p>Impostos (ICMS, PIS, COFINS): <span class="d-flex justify-content-end">R$ 30,00</span></p>
-                    <p>Outras tarifas: <span class="d-flex justify-content-end">R$ 30,00</span></p>
-                    <hr>
-                    <p class="fatura">Previsão da Fatura: <span class="d-flex justify-content-end">R$ 150,00</span></p>
+                    <p>Marcação Inicial:                    <span class="float-right" id="marcacaoInicial"></span></p>
+                    <p>Marcação Final:                      <span class="float-right" id="marcacaoFinal"></span></p>
+                    <p>KWh utilizados:                      <span class="float-right" id="consumo"></span></p>
+                    <p>Valor do KWh:                        <span class="float-right" id="valorKwh"></span></p>
+                    <p>Impostos (ICMS, PIS, COFINS):        <span class="float-right" id="impostos"></span></p>                    
+                    <p class="fatura">Total da fatura:   <span class="float-right" id="fatura"></span></p>
     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar no histórico</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>                    
                 </div>
             </div>
         </div>
@@ -105,51 +106,39 @@
 
 <script>
 
-let valores = [];
-for (let i = 0; i < 10; i++ ) {
-    valores.push(Math.floor(Math.random() * 100))
-}
+    const VALORKWH = 0.61;
+    const ICMS = 0.18;
+    const PIS = 0.0165;
+    const COFINS = 0.076;
 
-let ctx = document.getElementById('myChart');
-    ctx.height = 400;
+
+    let iptInicial = $("#iptMarcacaoInicial");
+    let iptFinal = $("#iptMarcacaoFinal");
+    let btn = $(".btn");
+
+    let marcacaoInicial = $("#marcacaoInicial");
+    let marcacaoFinal = $("#marcacaoFinal");
+    let consumo = $("#consumo");
+    let valorkwh = $("#valorKwh");
+    let impostos = $("#impostos");
+    let fatura = $("#fatura");
     
-let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-        datasets: [{
-            label: '10 útimas marcações',
-            data: valores,
-            backgroundColor: [
-                "#F3F781", "#F3F781", "#F3F781", "#F3F781", "#F3F781",
-                "#F3F781", "#F3F781", "#F3F781", "#F3F781", "#F3F781",
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    fontColor: 'black',
-                },
-            }],
-            xAxes: [{
-                ticks: {
-                    fontColor: 'black',
-                },
-            }]
-        },
-        legend: {
-            labels: {
-                fontColor: 'black',
-            }
-        },
-        maintainAspectRatio: false,
-        responsive: true,
-    }
-});
+    $(btn).on("click", function () {
+
+        let _consumo = iptFinal.val() - iptInicial.val()
+        let _fatura = (_consumo * VALORKWH).toFixed(2);
+        let _impostos = (_fatura * ICMS + _fatura * PIS + _fatura * COFINS).toFixed(2);
+
+        $(marcacaoInicial).text(iptInicial.val());
+        $(marcacaoFinal).text(iptFinal.val());        
+        
+        $(consumo).text( _consumo );
+        $(valorkwh).text( VALORKWH );
+        $(impostos).text( _impostos );
+        $(fatura).text( (parseInt(_fatura) + parseInt(_impostos)).toFixed(2) );
+    })
+
+
 </script>
 
 </body>
