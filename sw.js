@@ -8,3 +8,5 @@ function registerServiceWorker() {
     });
   }
 }
+
+registerServiceWorker();
