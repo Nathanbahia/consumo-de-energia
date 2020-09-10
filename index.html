@@ -1,107 +1,227 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
-    <title>Controle de Energia</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-    <meta name="autor" content="Nathan Batitsta de Assis Bahia">
-    <meta name="description" content="Cálcule o valor aproximado da sua próxima fatura de Energia Elétrica de uma maneira rápida e simples">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    
+	<title>Controle de Energia</title>
 
-    <style>
-        body {
-            background: #088A85;
-            font-family: 'Oswald', sans-serif;
-            color: #000;
-        }
+   	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    
+	<meta name="autor" content="Nathan Batitsta de Assis Bahia">
+    
+	<meta name="description" content="Cálcule o valor aproximado da sua próxima fatura de Energia Elétrica de uma maneira rápida e simples">
+    
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap">
+    
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
 
-        label {
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+    
+	<style>
         
-        h1, .fatura {
-            font-weight: 700;
-        }
-        
-        @media screen and (min-width: 681px) {
-            .btn-warning {
-                width: 360px;
-            }
+body {
             
-            input {
-                width: 450px !important;
-            }
-        }
+	background: #CCC;
+
+        font-family: 'Oswald', sans-serif;
+            
+	color: #000;
         
-        @media screen and (max-width: 680px) {
-            .btn-warning {
-                width: 100%;
-            }
-        }
+	}
+
+
+#logo {
+	width: 100%;
+	max-width: 360px;
+}
+
+
         
-    </style>
+label {
+            
+	font-size: 16px;
+            
+	letter-spacing: 2px;
+            
+	text-transform: uppercase;
+            
+	font-weight: bold;
+        
+}
+        
+        
+
+.fatura, label {
+            
+	font-weight: 700;
+
+	color: #ed3237;
+}
+
+
+h1 {
+	color: #3e4095;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.btn {
+	background: #3e4095;
+	color: white;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	width: 300px;
+
+	
+	
+}
+        
+        
+@media screen and (min-width: 681px) {
+            
+	.btn {
+                
+		width: 360px;
+            
+	}
+            
+            
+	
+	input {
+                
+		width: 450px !important;
+            
+	}
+        
+}
+        
+        
+
+</style>
+
 </head>
 
+
+
+
 <body class="container">
+  
+  
+<header class="text-center">
+  
+
+<img src="LOG.png" id="logo" class="mt-3">      
+<h1 class="h3 my-5">Gestão do Consumo de Energia</h1>
+        
+
+   
+ 
+</header>
     
-    <header class="text-center">
-        <h1 class="h3 my-3">Gestão do Consumo de Energia</h1>
-        <img src="energy.svg" width="150" id="logo" class="mt-3">
-    </header>
-    
-    <div class="form-group mt-5 text-center">
-        <label>Última marcação</label>
-        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Última marcação que consta na conta de luz."></i>        
-        <input type="number" class="form-control mx-auto" id="iptMarcacaoInicial">
-    </div>
-    
-    <div class="form-group text-center">
-        <label>Marcação atual</label>
-        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="A marcação atual do relógio de luz."></i>        
-        <input type="number" class="form-control mx-auto" id="iptMarcacaoFinal">
-    </div>
-    
-    <div class="form-group text-center w-100 mb-5">
-        <button class="btn btn-warning" data-toggle="modal" data-target="#calculoEnergia">Calcular</button>
-    </div>
     
 
-    <!-- Modal -->
-    <div class="modal fade" id="calculoEnergia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cálculo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    
-                    <p>Marcação Inicial:                    <span class="float-right" id="marcacaoInicial"></span></p>
-                    <p>Marcação Final:                      <span class="float-right" id="marcacaoFinal"></span></p>
-                    <p>KWh utilizados:                      <span class="float-right" id="consumo"></span></p>
-                    <p>Valor do KWh:                        <span class="float-right" id="valorKwh"></span></p>
-                    <p>Impostos (ICMS, PIS, COFINS):        <span class="float-right" id="impostos"></span></p>                    
-                    <p class="fatura">Total da fatura:   <span class="float-right" id="fatura"></span></p>
+<div class="form-group my-5 text-center">
+        
+	<label>Última leitura</label>
+        
+	<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Última marcação que consta na conta de luz."></i>        
+        
+	<input type="number" class="form-control mx-auto" id="iptMarcacaoInicial">
     
+</div>
+    
+    
+
+<div class="form-group text-center">
+        
+	<label>leitura atual</label>
+        
+	<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="A marcação atual do relógio de luz."></i>        
+        
+	<input type="number" class="form-control mx-auto" id="iptMarcacaoFinal">
+    
+</div>
+    
+    
+
+<div class="form-group text-center w-100 my-5">
+        
+	<button class="btn" data-toggle="modal" data-target="#calculoEnergia">Calcular</button>
+    
+</div>
+ 
+
+<div class="text-center m-auto">
+	<a href="#" onclick="alert('Podemos direcionar esse link para um vídeo no YouTube ensinando a usar o sistema.')">Precisa de ajuda? Clique aqui!</a>   
+
+    
+</div>
+
+<!-- Modal -->
+    
+<div class="modal fade" id="calculoEnergia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        
+	<div class="modal-dialog">
+            
+		<div class="modal-content">
+                
+			<div class="modal-header">
+                    
+				<h5 class="modal-title" id="exampleModalLabel">Cálculo</h5>
+                    
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    
+					<span aria-hidden="true">&times;</span>
+                    
+				</button>
+	
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>                    
-                </div>
-            </div>
-        </div>
-    </div>
+         
+			<div class="modal-body">
+                    
+                    
+				<p>Marcação Inicial:                    <span class="float-right" id="marcacaoInicial"></span></p>
+                    
+				<p>Marcação Final:                      <span class="float-right" id="marcacaoFinal"></span></p>
+                    
+				<p>KWh utilizados:                      <span class="float-right" id="consumo"></span></p>
+                    
+				<p>Valor do KWh:                        <span class="float-right" id="valorKwh"></span></p>
+                    
+				<p>Impostos (ICMS, PIS, COFINS):        <span class="float-right" id="impostos"></span></p>                    
+                    
+				<p class="fatura">Total da fatura:      <span class="float-right" id="fatura"></span></p>
+    
+                
+			</div>
+               
+			<div class="modal-footer">
+                    
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>                    
+                
+			</div>
+            
+		</div>
+        
+	</div>
+    
+</div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+
 
 
 <script>
@@ -112,34 +232,58 @@
     const COFINS = 0.076;
 
 
-    let iptInicial = $("#iptMarcacaoInicial");
-    let iptFinal = $("#iptMarcacaoFinal");
-    let btn = $(".btn");
 
-    let marcacaoInicial = $("#marcacaoInicial");
-    let marcacaoFinal = $("#marcacaoFinal");
-    let consumo = $("#consumo");
-    let valorkwh = $("#valorKwh");
-    let impostos = $("#impostos");
-    let fatura = $("#fatura");
     
-    $(btn).on("click", function () {
+let iptInicial = $("#iptMarcacaoInicial");
+    
+let iptFinal = $("#iptMarcacaoFinal");
+    
+let btn = $(".btn");
 
-        let _consumo = iptFinal.val() - iptInicial.val()
-        let _fatura = (_consumo * VALORKWH).toFixed(2);
-        let _impostos = (_fatura * ICMS + _fatura * PIS + _fatura * COFINS).toFixed(2);
+    
+let marcacaoInicial = $("#marcacaoInicial");
+    
+let marcacaoFinal = $("#marcacaoFinal");
+    
+let consumo = $("#consumo");
+    
+let valorkwh = $("#valorKwh");
+    
+let impostos = $("#impostos");
+    
+let fatura = $("#fatura");
+    
+    
 
-        $(marcacaoInicial).text(iptInicial.val());
+$(btn).on("click", function () {
+
+        
+	let _consumo = iptFinal.val() - iptInicial.val()
+        
+	let _fatura = (_consumo * VALORKWH).toFixed(2);
+        
+	let _impostos = (_fatura * ICMS + _fatura * PIS + _fatura * COFINS).toFixed(2);
+
+        
+	$(marcacaoInicial).text(iptInicial.val());
         $(marcacaoFinal).text(iptFinal.val());        
         
-        $(consumo).text( _consumo );
+        
+	$(consumo).text( _consumo );
         $(valorkwh).text( VALORKWH );
-        $(impostos).text( _impostos );
-        $(fatura).text( (parseInt(_fatura) + parseInt(_impostos)).toFixed(2) );
-    })
+        
+	$(impostos).text( _impostos );
+        
+	$(fatura).text( (parseInt(_fatura) + parseInt(_impostos)).toFixed(2) );
+    
+})
+
+
 
 
 </script>
 
+
 </body>
+
 </html>
