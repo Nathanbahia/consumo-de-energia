@@ -7,13 +7,12 @@
 	<title>Gestão do Consumo de Energia</title>
    	<meta charset="utf-8">
 	<meta name="theme-color" content="#ccc">
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">   
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">  
 	<meta name="autor" content="Nathan Batitsta de Assis Bahia">    
 	<meta name="description" content="Cálcule o valor aproximado da sua próxima fatura de Energia Elétrica de uma maneira rápida e simples">    
 	<link rel="manifest" href="manifest.json">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap">    
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">   
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap">    	
 	<link rel="apple-touch-icon" href="maskable_icon.png">
 	<link href="maskable_icon.png" rel="shortcut icon" type="image/x-icon" />
 
@@ -83,19 +82,17 @@ h1 {
 <body class="container">  
 	
 <header class="text-center">  
-	<img src="LOG.png" id="logo" class="mt-3">      
+	<img src="LOG.png" id="logo" class="mt-3" alt="logo da empresa sulconta">      
 	<h1 class="h3 my-3">Gestão do Consumo de Energia</h1> 
 </header>        
 
 <div class="form-group mt-2 text-center">        
-	<label>Última leitura</label>        
-	<!--<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Última marcação que consta na conta de luz."></i>-->
+	<label for="iptMarcacaoInicial">Última leitura</label>        	
 	<input type="number" class="form-control mx-auto" id="iptMarcacaoInicial">    
 </div>
     
 <div class="form-group text-center">        
-	<label>leitura atual</label>        
-	<!--<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="A marcação atual do relógio de luz."></i>-->
+	<label for="iptMarcacaoFinal">leitura atual</label>        	
 	<input type="number" class="form-control mx-auto" id="iptMarcacaoFinal">    
 </div>
         
@@ -136,7 +133,6 @@ h1 {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
 <script>
 
