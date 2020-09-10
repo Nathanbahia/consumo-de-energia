@@ -5,6 +5,18 @@
   "short_name": "Energia",
   "icons": [
     {
+      "src": "splash.png",      
+      "type": "maskable_icon/png",
+      "purpose": "any maskable",
+      "sizes": "144x144"
+    },
+    {
+      "src": "splash.png",      
+      "type": "maskable_icon/png",
+      "purpose": "any maskable",
+      "sizes": "192x192"
+    },
+    {
       "src": "splash.png",
       "sizes": "512x512",
       "type": "maskable_icon/png",
