@@ -77,8 +77,7 @@ h1 {
 }    
 
 </style>
-</head>
-
+</head>	
 <body class="container">  
 	
 <header class="text-center">  
@@ -86,26 +85,26 @@ h1 {
 	<h1 class="h3 my-3">Gestão do Consumo de Energia</h1> 
 </header>        
 
-<div class="form-group mt-2 text-center">        
-	<label for="iptMarcacaoInicial">Última leitura</label>        	
-	<input type="number" class="form-control mx-auto" id="iptMarcacaoInicial">    
-</div>
-    
-<div class="form-group text-center">        
-	<label for="iptMarcacaoFinal">leitura atual</label>        	
-	<input type="number" class="form-control mx-auto" id="iptMarcacaoFinal">    
-</div>
-        
-<div class="form-group text-center w-100 my-2">        
-	<button class="btn" data-toggle="modal" data-target="#calculoEnergia">Calcular</button>    
-</div>
- 
-<div class="text-center mt-1">
-	<a href="#" onclick="alert('Podemos direcionar esse link para um vídeo no YouTube ensinando a usar o sistema.')">Precisa de ajuda? Clique aqui!</a>   
+<form id="calculoFatura" action="" method="get">
+	<div class="form-group my-5 text-center">        
+		<label for="iptMarcacaoInicial">Última leitura</label>        
+		<input type="number" class="form-control mx-auto" id="iptMarcacaoInicial" min="0" max="99999" required>    
+	</div>
+	<div class="form-group text-center">        
+		<label for="iptMarcacaoFinal">leitura atual</label>        
+		<input type="number" class="form-control mx-auto" id="iptMarcacaoFinal" min="0" max="99999" required>    
+	</div>
+	<div class="form-group text-center w-100 my-5">
+		<button class="btn">Calcular</button>    
+	</div> 
+</form>
+
+<div class="text-center m-auto">
+	<a href="#" onclick="alert('Podemos direcionar esse link para um vídeo no YouTube ensinando a usar o sistema.')">Precisa de ajuda? Clique aqui!</a>
 </div>
 
 <!-- Modal -->    
-<div class="modal fade" id="calculoEnergia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">        
+<div class="modal fade" id="calculoEnergia" tabindex="-1" aria-hidden="true">        
 	<div class="modal-dialog">            
 		<div class="modal-content">                
 			<div class="modal-header">                    
@@ -113,16 +112,15 @@ h1 {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">                    
 					<span aria-hidden="true">&times;</span>                    
 				</button>	
-                </div>         
-			<div class="modal-body">                                       
-				<p>Leitura Inicial:                    <span class="float-right" id="marcacaoInicial"></span></p>                    
-				<p>Leitura Final:                      <span class="float-right" id="marcacaoFinal"></span></p>                    
+        	        </div>         
+			<div class="modal-body">                                        
+				<p>Marcação Inicial:                    <span class="float-right" id="marcacaoInicial"></span></p>                   
+				<p>Marcação Final:                      <span class="float-right" id="marcacaoFinal"></span></p>                    
 				<p>KWh utilizados:                      <span class="float-right" id="consumo"></span></p>                    
 				<p>Valor do KWh:                        <span class="float-right" id="valorKwh"></span></p>                    
 				<p>Impostos (ICMS, PIS, COFINS):        <span class="float-right" id="impostos"></span></p>                                        
-				<p class="fatura">Total da fatura:      <span class="float-right" id="fatura"></span></p>                    
-			</div>
-               
+				<p class="fatura">Total da fatura:      <span class="float-right" id="fatura"></span></p>                   
+			</div>               
 			<div class="modal-footer">                    
 				<button type="button" class="btn w-100" data-dismiss="modal">Fechar</button>                                    
 			</div>            
@@ -135,36 +133,50 @@ h1 {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
+	const VALORKWH = 0.61;
+	const ICMS = 0.18;
+	const PIS = 0.0165;
+	const COFINS = 0.076;
 
-    const VALORKWH = 0.61;
-    const ICMS = 0.18;
-    const PIS = 0.0165;
-    const COFINS = 0.076;
-    
-let iptInicial = $("#iptMarcacaoInicial");    
-let iptFinal = $("#iptMarcacaoFinal");    
-let btn = $(".btn");   
-let marcacaoInicial = $("#marcacaoInicial");    
-let marcacaoFinal = $("#marcacaoFinal");    
-let consumo = $("#consumo");    
-let valorkwh = $("#valorKwh");    
-let impostos = $("#impostos");    
-let fatura = $("#fatura");
-    
-$(btn).on("click", function () {        
-	let _consumo = iptFinal.val() - iptInicial.val()        
-	let _fatura = (_consumo * VALORKWH).toFixed(2);        
-	let _impostos = (_fatura * ICMS + _fatura * PIS + _fatura * COFINS).toFixed(2);
-	let _faturaFinal = (parseInt(_fatura) + parseInt(_impostos)).toFixed(2);
-        
-	$(marcacaoInicial).text(iptInicial.val());
-        $(marcacaoFinal).text(iptFinal.val());                        
-	$(consumo).text( _consumo );
-        $(valorkwh).text( VALORKWH );        
-	$(impostos).text( _impostos );        
-	$(fatura).text( _faturaFinal );    
-})
+	let iptInicial = $("#iptMarcacaoInicial");    
+	let iptFinal = $("#iptMarcacaoFinal");    
+	let btn = $(".btn");	    
+	let marcacaoInicial = $("#marcacaoInicial");    
+	let marcacaoFinal = $("#marcacaoFinal");    
+	let consumo = $("#consumo");    
+	let valorkwh = $("#valorKwh");	    
+	let impostos = $("#impostos");	    
+	let fatura = $("#fatura");	
+	let form = $("#calculoFatura");
 	
+	$(form).on("submit", (e) => {
+		e.preventDefault();
+		let i1 = parseInt($(iptMarcacaoInicial).val());	
+		let i2 = parseInt($(iptMarcacaoFinal).val());
+		if ( (i1 >= 0 && i1 <= 99999) && (i2 >= 0 && i2 <= 99999) ) {
+			$("#calculoEnergia").modal("show");
+			exibeValores();
+		} else {
+			console.log(i1, i2);
+			$(this).submit();
+		}
+	});      
+
+	function exibeValores () {	        
+		let _consumo = iptFinal.val() - iptInicial.val();
+		if ( parseInt(iptFinal.val() ) < parseInt(iptInicial.val()) ) {
+			_consumo = 99999 - parseInt(iptInicial.val()) + parseInt(iptFinal.val());
+		}	      
+		let _fatura = (_consumo * VALORKWH).toFixed(2);	        
+		let _impostos = (_fatura * ICMS + _fatura * PIS + _fatura * COFINS).toFixed(2);
+	        
+		$(marcacaoInicial).text(iptInicial.val());
+        	$(marcacaoFinal).text(iptFinal.val());                        
+		$(consumo).text( _consumo );
+        	$(valorkwh).text( VALORKWH );        
+		$(impostos).text( _impostos );        
+		$(fatura).text( (parseInt(_fatura) + parseInt(_impostos)).toFixed(2) );    
+	}
 </script>
 </body>
 </html>
